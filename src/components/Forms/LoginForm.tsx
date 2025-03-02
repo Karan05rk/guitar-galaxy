@@ -1,138 +1,110 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
+import { IconBrandGoogle, IconCheck, IconX, IconEye, IconEyeOff } from "@tabler/icons-react";
 
-const LoginForm = () => {
-  const [usernameOrEmail, setUsernameOrEmail] = useState('');
-  const [password, setPassword] = useState('');
+export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const isEmailValid = email.includes("@");
+  const isPasswordValid = password.length >= 6;
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle login logic here
+    console.log("Form submitted", { email, password, rememberMe });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
-      <form 
-        onSubmit={handleSubmit} 
-        className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full space-y-6"
-      >
-        <h1 className="text-3xl font-bold text-center text-white">Login</h1>
+    <div className="flex items-center justify-center min-h-screen bg-black">
+      <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 border border-gray-500 shadow-2xl bg-white dark:bg-black">
+        <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">Login to GuitarGalaxy</h2>
         
-        {/* Username / Email Field */}
-        <div>
-          <label htmlFor="usernameOrEmail" className="block text-sm text-white mb-1">
-            Username / Email
-          </label>
-          <div className="relative">
-            <input
-              id="usernameOrEmail"
-              type="text"
-              value={usernameOrEmail}
-              onChange={(e) => setUsernameOrEmail(e.target.value)}
-              placeholder="Enter your username or email"
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded border border-transparent focus:outline-none focus:border-blue-400 transition-colors"
-            />
-            {/* Username/Email Status Icon (placeholder) */}
-            <span className="absolute right-3 top-3 text-blue-400">
-              {/* Replace with appropriate icon */}
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <circle cx="10" cy="10" r="5" />
-              </svg>
-            </span>
+        <form className="my-8" onSubmit={handleSubmit}>
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="email">Username or Email</Label>
+            <div className="relative">
+              <Input
+                id="email"
+                placeholder="projectmayhem@fc.com"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <span className="absolute right-3 top-3">
+                {email && (isEmailValid ? <IconCheck className="text-green-500" /> : <IconX className="text-red-500" />)}
+              </span>
+            </div>
+            {!isEmailValid && email && <p className="text-sm text-red-500">Enter a valid email address.</p>}
+          </LabelInputContainer>
+
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Input
+                id="password"
+                placeholder="••••••••"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-3"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <IconEyeOff /> : <IconEye />}
+              </button>
+            </div>
+            {!isPasswordValid && password && <p className="text-sm text-red-500">Password must be at least 6 characters.</p>}
+          </LabelInputContainer>
+
+          <div className="flex items-center justify-between mb-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+                className="w-4 h-4"
+              />
+              <span className="text-sm text-neutral-700 dark:text-neutral-300">Remember Me</span>
+            </label>
+            <a href="/forgot-password" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Forgot Password?</a>
           </div>
-          <p className="text-xs text-gray-400 mt-1">
-            Please enter a valid username or email address.
-          </p>
-        </div>
 
-        {/* Password Field */}
-        <div>
-          <label htmlFor="password" className="block text-sm text-white mb-1">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded border border-transparent focus:outline-none focus:border-blue-400 transition-colors"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-3 text-blue-400 focus:outline-none"
-            >
-              {/* Toggle Icon: eye/open eye */}
-              {showPassword ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 3C5 3 1.73 7.11 1 10c.73 2.89 4 7 9 7s8.27-4.11 9-7c-.73-2.89-5-7-9-7zm0 12c-3.31 0-6-3.14-6-5s2.69-5 6-5 6 3.14 6 5-2.69 5-6 5z" />
-                  <circle cx="10" cy="10" r="2" />
-                </svg>
-              )}
-            </button>
+          <button
+            className="bg-gradient-to-br from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block w-full text-white rounded-md h-10 font-medium shadow-2xl"
+            type="submit"
+          >
+            Login
+          </button>
+
+          <div className="flex items-center my-4">
+            <div className="flex-grow h-[1px] bg-gray-300 dark:bg-gray-700"></div>
+            <span className="mx-2 text-sm text-gray-500">or</span>
+            <div className="flex-grow h-[1px] bg-gray-300 dark:bg-gray-700"></div>
           </div>
-          <p className="text-xs text-gray-400 mt-1">
-            Your password must be at least 8 characters.
+
+          <button
+            className="flex items-center justify-center space-x-2 px-4 w-full text-black rounded-md h-10 font-medium shadow-2xl bg-gray-50 dark:bg-zinc-900 dark:shadow-md"
+            type="button"
+          >
+            <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
+            <span className="text-neutral-700 dark:text-neutral-300 text-sm">Login with Google</span>
+          </button>
+
+          <p className="text-center text-sm text-neutral-700 dark:text-neutral-300 mt-4">
+            Don't have an account? <a href="/signup" className="text-blue-600 dark:text-blue-400 hover:underline">Sign Up</a>
           </p>
-        </div>
-
-        {/* Remember Me and Forgot Password */}
-        <div className="flex items-center justify-between">
-          <label className="flex items-center text-white text-sm">
-            <input 
-              type="checkbox" 
-              checked={rememberMe} 
-              onChange={() => setRememberMe(!rememberMe)} 
-              className="form-checkbox h-4 w-4 text-blue-400 mr-2" 
-            />
-            Remember Me
-          </label>
-          <a href="/forgot-password" className="text-blue-400 text-sm hover:underline">
-            Forgot Password?
-          </a>
-        </div>
-
-        {/* Login Button */}
-        <button 
-          type="submit"
-          className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded hover:from-blue-600 hover:to-purple-600 transition-colors"
-        >
-          Login
-        </button>
-
-        {/* Divider */}
-        <div className="flex items-center my-4">
-          <span className="flex-grow h-px bg-gray-600"></span>
-          <span className="px-3 text-white text-sm">or</span>
-          <span className="flex-grow h-px bg-gray-600"></span>
-        </div>
-
-        {/* Login with Google */}
-        <button 
-          type="button" 
-          className="w-full py-2 border border-blue-400 text-blue-400 font-semibold rounded hover:bg-blue-500 hover:text-white transition-colors"
-        >
-          Login with Google
-        </button>
-
-        {/* Sign Up Link */}
-        <p className="text-center text-gray-400 text-sm">
-          Don't have an account?{' '}
-          <a href="/signup" className="text-blue-400 hover:underline">
-            Sign Up
-          </a>
-        </p>
-      </form>
+        </form>
+      </div>
     </div>
   );
-};
+}
 
-export default LoginForm;
+const LabelInputContainer = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return <div className={cn("flex flex-col space-y-2 w-full", className)}>{children}</div>;
+};

@@ -6,13 +6,18 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tailwind:init": "node --experimental-specifier-resolution=node ./node_modules/tailwindcss/dist/lib.mjs init -p"    
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.2",
+    "@tabler/icons-react": "^3.30.0",
+    "clsx": "^2.1.1",
+    "motion": "^12.4.7",
     "next": "15.2.0",
-    "postcss": "^8.5.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -20,8 +25,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
+    "postcss": "^8.5.3",
     "tailwindcss": "^4.0.9",
     "typescript": "^5"
   }
