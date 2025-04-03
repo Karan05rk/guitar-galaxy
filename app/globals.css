@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 262.1 83.3% 97.8%;
+    --accent-foreground: 262.1 83.3% 47.8%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.75rem;
+    --glass-opacity: 0.15;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 262.1 73.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 262.1 73.3% 37.8%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 262.1 73.3% 57.8%;
+    --glass-opacity: 0.25;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  /* Glassmorphic Header */
+  .glass-header {
+    background: rgba(255, 255, 255, var(--glass-opacity));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg shadow-md transition-all;
+  }
+  .btn-primary:hover {
+    @apply bg-opacity-80 shadow-lg scale-105;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-lg shadow-md transition-all;
+  }
+  .btn-secondary:hover {
+    @apply bg-opacity-80 shadow-lg scale-105;
+  }
+  
+  /* Animated Guitar Strings */
+  .guitar-string {
+    @apply relative h-2 w-full rounded-full transition-all;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .guitar-string-e-high { @apply bg-red-500; }
+  .guitar-string-b { @apply bg-yellow-500; }
+  .guitar-string-g { @apply bg-green-500; }
+  .guitar-string-d { @apply bg-blue-500; }
+  .guitar-string-a { @apply bg-indigo-500; }
+  .guitar-string-e-low { @apply bg-purple-500; }
+  
+  .guitar-string.vibrating {
+    animation: vibrate 0.5s ease-in-out;
+  }
+
+  @keyframes vibrate {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-4px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(4px); }
+  }
+}
